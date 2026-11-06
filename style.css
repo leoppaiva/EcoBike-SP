@@ -1,0 +1,481 @@
+/* ===== EcoBike SP · style.css ===== */
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+/* ===== Fontes =====
+   Texto: Montserrat (Google Fonts, carregada pela linha acima; precisa de internet).
+   Título: coloque o arquivo em fonts/titulo.otf. Se faltar, usa a fonte reserva. */
+@font-face {
+  font-family: "Titulo";
+  src: url("fonts/titulo.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* TODO 1: variáveis de cor e fonte */
+:root {
+  --cor-primaria: #16a34a;
+  --cor-fundo: #ffffff;
+  --cor-texto: #1f2937;
+  --raio: 12px;
+
+  /* complementos */
+  --cor-primaria-escura: #15803d;
+  --cor-superficie: #f3f4f6;
+  --cor-borda: #e5e7eb;
+  --cor-preto: #0a0a0a;
+  --cor-branco: #ffffff;
+  --fonte-titulo: "Titulo", "Didot", "Bodoni MT", Georgia, serif;
+  --fonte-texto: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --largura-max: 1100px;
+  --espaco: 1.5rem;
+}
+
+/* TODO 6: o modo escuro só troca as variáveis! */
+body.dark {
+  --cor-fundo: #0f172a;
+  --cor-texto: #e2e8f0;
+  --cor-superficie: #1e293b;
+  --cor-borda: #334155;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+
+body {
+  margin: 0;
+  font-family: var(--fonte-texto);
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  transition: background .3s, color .3s;
+  line-height: 1.6;
+}
+
+a { color: inherit; }
+
+h1, h2, h3 {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 0 0 .75rem;
+}
+
+h2 {
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  letter-spacing: .01em;
+}
+
+:focus-visible {
+  outline: 3px solid var(--cor-primaria);
+  outline-offset: 3px;
+}
+
+/* ===== Header (barra preta, como na referência) ===== */
+/* TODO 2: header e nav com flexbox (space-between, align-items) */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: .75rem var(--espaco);
+  background: var(--cor-preto);
+  color: var(--cor-branco);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: 1.4rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--cor-branco);
+  border-left: 4px solid var(--cor-primaria);
+  padding-left: .6rem;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-right: auto;
+  margin-left: 2rem;
+}
+
+nav a {
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  text-decoration: none;
+  color: var(--cor-branco);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: border-color .2s;
+}
+
+nav a:hover { border-bottom-color: var(--cor-primaria); }
+
+/* ===== Botões ===== */
+button,
+.btn {
+  display: inline-block;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid var(--cor-primaria);
+  background: var(--cor-primaria);
+  color: var(--cor-branco);
+  padding: .7rem 1.4rem;
+  border-radius: var(--raio);
+  transition: background .2s, transform .2s, border-color .2s;
+}
+
+button:hover,
+.btn:hover {
+  background: var(--cor-primaria-escura);
+  border-color: var(--cor-primaria-escura);
+  transform: translateY(-2px);
+}
+
+/* Botão de tema: chave com sol (modo claro) e lua (modo escuro).
+   O círculo verde desliza sozinho quando o body ganha a classe .dark */
+#btnTema {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 4.5rem;
+  height: 2.2rem;
+  padding: 0 9px;
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  color: var(--cor-branco);
+}
+
+#btnTema::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--cor-primaria);
+  transition: transform .3s;
+}
+
+#btnTema:hover {
+  background: transparent;
+  border-color: var(--cor-branco);
+  transform: none;
+}
+
+#btnTema svg {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .5;
+  transition: opacity .3s;
+}
+
+#btnTema .icone-sol { opacity: 1; }
+
+body.dark #btnTema::before { transform: translateX(36px); }
+body.dark #btnTema .icone-sol { opacity: .5; }
+body.dark #btnTema .icone-lua { opacity: 1; }
+
+/* ===== Hero (tela cheia, título grande e espaçado) ===== */
+.hero {
+  /* para usar uma foto: --hero-foto: url("img/hero.jpg"); */
+  min-height: 85vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 4rem var(--espaco);
+  color: var(--cor-branco);
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, .75), rgba(0, 0, 0, .1) 60%),
+    var(--hero-foto, none),
+    linear-gradient(135deg, #052e16 0%, #166534 55%, #4ade80 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-conteudo {
+  width: 100%;
+  max-width: var(--largura-max);
+  margin: 0 auto;
+}
+
+.hero-conteudo p { max-width: 34rem; }
+
+.hero-chamada {
+  font-size: .9rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  opacity: .85;
+  margin: 0 0 .5rem;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 12vw, 8rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  line-height: .95;
+}
+
+.hero .btn { margin-top: 1rem; }
+
+/* ===== Faixa de aviso (como a faixa de newsletter da referência) ===== */
+.faixa {
+  background: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
+  padding: 1rem var(--espaco);
+  text-align: center;
+  font-size: .9rem;
+  transition: background .3s;
+}
+
+.faixa p { margin: 0; }
+
+/* ===== Seções ===== */
+main section:not(.hero) {
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  padding: 4rem var(--espaco);
+}
+
+.intro { max-width: 36rem; margin: 0 0 2rem; }
+
+/* TODO 3: cards em grid de 3 colunas */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.card {
+  border-radius: var(--raio);
+  padding: 0;
+  position: relative;
+  /* TODO 4: transition + :hover (ex.: translateY(-4px)) */
+  transition: transform .25s;
+}
+
+.card:hover { transform: translateY(-4px); }
+
+/* foto no estilo vitrine: painel claro, imagem inteira, sem borda */
+.card-foto {
+  aspect-ratio: 4 / 5;
+  background: #eeeeea;
+  border-radius: var(--raio);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-foto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  transition: transform .4s;
+}
+
+.card:hover .card-foto img { transform: scale(1.04); }
+
+.card-info {
+  position: relative;
+  padding: .75rem 2rem 0 .1rem;
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+.card-info p { margin: 0; }
+
+.card-tag {
+  text-transform: uppercase;
+  opacity: .65;
+}
+
+.card h3 {
+  font-family: var(--fonte-texto);
+  font-weight: 600;
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  margin: 0;
+}
+
+.preco {
+  font-size: .85rem;
+  color: var(--cor-texto);
+}
+
+.preco span { opacity: .65; }
+
+.card-info .card-desc {
+  margin-top: .5rem;
+  opacity: .8;
+}
+
+.card-mais {
+  position: absolute;
+  top: .6rem;
+  right: .1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--cor-texto);
+  transition: color .2s;
+}
+
+.card-mais:hover { color: var(--cor-primaria); }
+
+/* ===== Formulários (simulador e reservas) ===== */
+#simulador,
+#reservas {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+#simulador > *,
+#reservas > * { max-width: 28rem; width: 100%; }
+
+#simulador h2,
+#reservas h2 { margin-bottom: 1rem; }
+
+label {
+  font-weight: 500;
+  font-size: .9rem;
+  margin-top: .5rem;
+}
+
+input,
+select {
+  font: inherit;
+  width: 100%;
+  padding: .7rem .9rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  transition: border-color .2s, background .3s;
+}
+
+input:focus,
+select:focus { border-color: var(--cor-primaria); }
+
+#simulador button,
+#reservas button { align-self: flex-start; margin-top: .75rem; }
+
+#resultado {
+  font-family: var(--fonte-titulo);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--cor-primaria);
+  margin: .5rem 0 0;
+}
+
+#resultado:empty { display: none; }
+
+#lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+#lista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: .6rem .9rem;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  overflow-wrap: anywhere;
+}
+
+#lista li button { padding: .3rem .7rem; font-size: .75rem; }
+
+/* ===== Footer ===== */
+footer {
+  background: var(--cor-preto);
+  color: var(--cor-branco);
+  padding: 3rem var(--espaco) 1.5rem;
+}
+
+.footer-grade {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: var(--largura-max);
+  margin: 0 auto;
+}
+
+footer h2 { font-size: 1.6rem; }
+
+footer address { font-style: normal; line-height: 2; }
+
+footer a { text-decoration: none; }
+footer a:hover { color: var(--cor-primaria); }
+
+.copy {
+  max-width: var(--largura-max);
+  margin: 2rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, .2);
+  font-size: .8rem;
+  opacity: .7;
+}
+
+/* TODO 5: responsivo */
+@media (max-width: 768px) {
+  header { flex-wrap: wrap; }
+
+  nav {
+    order: 3;
+    width: 100%;
+    margin: 0;
+    gap: 1.25rem;
+    justify-content: space-between;
+  }
+
+  .hero { min-height: 70vh; padding: 3rem var(--espaco); }
+
+  .cards { grid-template-columns: 1fr; }
+
+  main section:not(.hero) { padding: 3rem var(--espaco); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
